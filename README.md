@@ -118,3 +118,27 @@ contribution.
 ## Insights
 
 All analysis and insights will be added as Jupyter Notebook on the folder `notebooks > insights`.
+
+## Models
+
+The notebooks with the attempts of getting the best model are avauilable [here](https://github.com/leportella/wiki-analysis/tree/master/notebooks/modelling).
+
+The initial strategy was to construct a "quick and dirt" model, with minimal features and 
+a simple model, to understand how far from our goal we were. The notebook is 
+available [here](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/01-Baseline_LogisticRegression.ipynb).
+
+The baseline model (notebook 1) presented a high accuracy (0.95) but with no classification of 
+class 0 (users that didn't update). Thus, the high accuracy was mainly due to a problem of unbalanced classes. 
+
+The [second notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/02-LogisticRegression-undersampling.ipynb) tried a strategy of undersampling. We took all 
+records of class 0 (756) and the same amount of class 1, and end up with a total of 1512 records.This strategy resulted in an accuracy score of 0.73, but with high values of precision and recall for both class 0 and 1. 
+
+On the [third notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/03-RandomForest.ipynb), we used a Random Forest Classifier model, adding values of unbalanced 
+classes as a parameter of the model. This is, we let the model know that our class 0 had just a few records, while class 1 prevailed with most of records. The precision of class 0 improved, but the recall remained too low for this model to be considered good enough.
+
+On [notebook 4](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/04-RandomForest-undersampling.ipynb) the undersampling strategy was used along with the Random Forest model. The main accuracy was of 0.81 will all precision and recall values of both classes with values above 0.8. This was considered the best model.
+
+Notebooks [5](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/05-GradientBoosting.ipynb) and [6](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/06-GradientBoosting-undersampling.ipynb) tried both strategies with Gradient Boosting. However, these models were not considered as good as the model achieved on Notebook 4.
+
+One observation must be made: the best hyperparameters for each models were obtained by the 
+use of [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html), which a technique specialized on finding the best hyperparameters based on a measure of accuracy.
