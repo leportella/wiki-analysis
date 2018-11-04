@@ -139,10 +139,10 @@ It is possible to see that from 2002 to 2006 there was a huge increase in the
 number of new edits per year. After 2006 the growth was smaller, but the edits
 kept increasing overall.
 
-![](https://i.imgur.com/YYZdlvc.png).
+![](https://i.imgur.com/uwrAHzu.png).
 
 We can observe that the months from March until August have the higher number
-of editing, while from September until December are slitly smaller. This could
+of editing, while from September until December are slightly smaller. This could
 be result of holidays. 
 
 ![](https://i.imgur.com/S1pK74Z.png)
@@ -156,7 +156,9 @@ the minimum being between 7 and 10 am.
 
 The users have an average of 134 edits reverted, with a standard deviation of
 1063.9 edits. The max reverts per user was 59323, by user `416473`. Although
-this is a very high number, this user made a total contribution of 146134.  
+this is a very high number, this user made a total contribution of 146134. This 
+represents only 40% of the user total contribution, so even if it very high, it's a 
+number reasonable considering all users, and can't be considered an outlier.
 
 The mean percent of edits reverted is 9%, but it can normally reach up to 50%.
 Users that reached 100% of reverts, usually did a single edit that was
