@@ -48,14 +48,18 @@ This project is structure as such:
 |   `-- wikipedia.tar.bz2
 |-- notebooks
 |   |-- insights
-|   |   |-- 00-Insights-Comments.ipynb
 |   |   |-- 01-Insights-Edits.ipynb
 |   |   `-- Sampling.ipynb
 |   |-- modelling
-|   |   `-- 01-Baseline_LogisticRegression.ipynb
+|   |   |-- 01-Baseline_LogisticRegression.ipynb
+|   |   |-- 02-LogisticRegression-undersampling.ipynb
+|   |   |-- 03-RandomForest.ipynb
+|   |   |-- 04-RandomForest-undersampling.ipynb
+|   |   |-- 05-GradientBoosting.ipynb
+|   |   |-- 06-GradientBoosting-undersampling.ipynb
+|   |   `-- tools.py
 |   |-- provision
 |   |   `-- 00-Edits-Feature-Engineering.ipynb
-|   `-- tools.py
 `-- requirements.txt
 ```
 
@@ -117,11 +121,52 @@ contribution.
 
 ## Insights
 
-All analysis and insights will be added as Jupyter Notebook on the folder `notebooks > insights`.
+All analysis and insights about the edits were made [in this
+notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/insights/01-Insights-Edits.ipynb).
+
+There were 22,126,031 records on the `edits.tsv` file. Near 9% of these edits
+were reverted. The dataset started in May 2001 and ended in Aug 2010. 
+
+Most of the edits were made in 2008 and 2009. Although 2010 had a smaller
+number, we must consider that the records stopped in August. So, only we have
+records of 66% of the year but, nevertheless, the number of edits until August
+represents 74% of the edits recorded in 2009. Thus, we can consider that the
+number of edits per year had an increase from 2001 to 2010. 
+
+![](https://i.imgur.com/Zel9kcN.png)
+
+It is possible to see that from 2002 to 2006 there was a huge increase in the
+number of new edits per year. After 2006 the growth was smaller, but the edits
+kept increasing overall.
+
+![](https://i.imgur.com/YYZdlvc.png).
+
+We can observe that the months from March until August have the higher number
+of editing, while from September until December are slitly smaller. This could
+be result of holidays. 
+
+![](https://i.imgur.com/S1pK74Z.png)
+
+Although no pattern appeared during the days of the month a good pattern
+emerged from the data of hours of day. Usually, users tend to contribute on
+afternoons and nights. Morning periods have a lot fewer edits, specially with
+the minimum being between 7 and 10 am. 
+
+![](https://i.imgur.com/OHQodon.png)
+
+The users have an average of 134 edits reverted, with a standard deviation of
+1063.9 edits. The max reverts per user was 59323, by user `416473`. Although
+this is a very high number, this user made a total contribution of 146134.  
+
+The mean percent of edits reverted is 9%, but it can normally reach up to 50%.
+Users that reached 100% of reverts, usually did a single edit that was
+reverted.
+
+![](https://i.imgur.com/dy2g2kT.png)
 
 ## Models
 
-The notebooks with the attempts of getting the best model are avauilable [here](https://github.com/leportella/wiki-analysis/tree/master/notebooks/modelling).
+The notebooks with the attempts of getting the best model are available [here](https://github.com/leportella/wiki-analysis/tree/master/notebooks/modelling).
 
 The initial strategy was to construct a "quick and dirt" model, with minimal features and 
 a simple model, to understand how far from our goal we were. The notebook is 
@@ -138,7 +183,7 @@ classes as a parameter of the model. This is, we let the model know that our cla
 
 On [notebook 4](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/04-RandomForest-undersampling.ipynb) the undersampling strategy was used along with the Random Forest model. The main accuracy was of 0.81 will all precision and recall values of both classes with values above 0.8. This was considered the best model.
 
-Notebooks [5](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/05-GradientBoosting.ipynb) and [6](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/06-GradientBoosting-undersampling.ipynb) tried both strategies with Gradient Boosting. However, these models were not considered as good as the model achieved on Notebook 4.
+Notebooks [5](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/05-GradientBoosting.ipynb) and [6](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/06-GradientBoosting-undersampling.ipynb) tried both strategies with Gradient Boosting. However, these models were not considered as good as the model achieved on Notebook 4. 
 
 One observation must be made: the best hyperparameters for each models were obtained by the 
 use of [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html), which a technique specialized on finding the best hyperparameters based on a measure of accuracy.
