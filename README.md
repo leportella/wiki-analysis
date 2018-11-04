@@ -189,3 +189,30 @@ Notebooks [5](https://github.com/leportella/wiki-analysis/blob/master/notebooks/
 
 One observation must be made: the best hyperparameters for each models were obtained by the 
 use of [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html), which a technique specialized on finding the best hyperparameters based on a measure of accuracy.
+
+
+### Final Model
+
+The model had as input 1512 users that had at least one edit reverted. The dataset was divided 
+into two parts: the **train** dataset and the **test** dataset, which represented 20% of the 
+1512 users.
+
+We used the classifier Random Forest, from the Scikit-learn, the GridSearchCV for finding the 
+best hyperparameters and the accuracy score, as the measure of efficiency. The model was 
+trained using the **train** dataset (80% of the data). Once the model was trained, the features 
+of the **test** dataset was used to get the prediction based on this trained model, and the 
+results were compared with the target variable of this **test** dataset. 
+
+We achieved a model with a accuracy of 0.85, which was considered a good prediction. 
+The model used three features only: the number of days 
+before the first revert, the number of updated per day and the number of edits before the first 
+revert. The model showed that the number of updates per day is the most important feature.
+
+The results of this model can be seen below:
+
+![](https://i.imgur.com/FekOlNw.png)
+
+![](https://i.imgur.com/2jze6aE.png)
+ 
+
+
