@@ -1,13 +1,25 @@
 # Wikipedia Dataset Analysis
 
-## Goal
+
+## Summary
+
+* [Goal](#goal)
+* [Environment](#environment)
+* [Dataset](#dataset)
+* [Project Structure](#structure)
+* [Feature Engineering](#engineered)
+* [Insights](#insights)
+* [Models](#models)
+
+
+<h2 id='goal'>Goal</h2>
 
 The goal this analysis is to obtain insights on the data of the Wiki Challange and to 
 predict if a user is likely to contribute again after an update was reverted. 
 
 Obs: This is **not** the same goal as the original challenge on Kaggle.
 
-## Environment
+<h2 id='environment'>Environment</h2>
 
 This analysis was made using Python 3.7.
 
@@ -19,7 +31,7 @@ Then install the requirements using *pip*:
 
 `$ pip install -r requirements.txt`
 
-## Dataset
+<h2 id='dataset'>Dataset</h2>
 
 The data is available [on this kaggle page](https://www.kaggle.com/c/wikichallenge).
 Dataset was divided into 5 separated files.
@@ -30,7 +42,7 @@ Dataset was divided into 5 separated files.
 * Namespaces
 * Titles
 
-## Project Structure
+<h2 id='structure'>Project Structure</h2>
 
 This project is structure as such:
 
@@ -49,6 +61,7 @@ This project is structure as such:
 |-- notebooks
 |   |-- insights
 |   |   |-- 01-Insights-Edits.ipynb
+|   |   |-- 02-Insights-Comments.ipynb
 |   |   `-- Sampling.ipynb
 |   |-- modelling
 |   |   |-- 01-Baseline_LogisticRegression.ipynb
@@ -69,7 +82,7 @@ amount of data. The processed data can be obtained with the notebooks inside the
 [kaggle website](https://www.kaggle.com/c/wikichallenge).
 
 
-## Feature Engineering
+<h2 id='engineering'>Feature Engineering</h2>
 
 All feature engineering were made using [this notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/provision/00-Edits-Feature-Engineering.ipynb).
 
@@ -119,7 +132,7 @@ contribution.
 **Edits before revert**: the number of editing the user made before having it's first revert.
 
 
-## Insights
+<h2 id='insights'>Insights</h2>
 
 ### Edits
 
@@ -179,7 +192,7 @@ additional feature for better predicting results in future implementations.
 
 ![](https://i.imgur.com/DT6ZPru.png)
 
-## Models
+<h2 id='models'>Models</h2>
 
 The notebooks with the attempts of getting the best model are available [here](https://github.com/leportella/wiki-analysis/tree/master/notebooks/modelling).
 
@@ -226,7 +239,3 @@ The results of this model can be seen below:
 ![](https://i.imgur.com/FekOlNw.png)
 
 ![](https://i.imgur.com/2jze6aE.png)
- 
-
-
-
