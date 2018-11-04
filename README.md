@@ -121,6 +121,8 @@ contribution.
 
 ## Insights
 
+### Edits
+
 All analysis and insights about the edits were made [in this
 notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/insights/01-Insights-Edits.ipynb).
 
@@ -165,6 +167,17 @@ Users that reached 100% of reverts, usually did a single edit that was
 reverted.
 
 ![](https://i.imgur.com/dy2g2kT.png)
+
+
+### Comments
+
+The dataset `comments.tsv` had a total of 18,978,698 comments (18 million). A sample 
+of 100,000 comments were obtained and evaluated quickly. Although the analysis is not 
+very detailed, it is possible to see that the word `revert` is the 8th word more used 
+in the comments analyzed and the word `add` was the third. This could be used as an 
+additional feature for better predicting results in future implementations. 
+
+![](https://i.imgur.com/DT6ZPru.png)
 
 ## Models
 
@@ -214,5 +227,6 @@ The results of this model can be seen below:
 
 ![](https://i.imgur.com/2jze6aE.png)
  
+
 
 
