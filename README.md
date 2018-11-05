@@ -8,8 +8,10 @@
 * [Development Environment](#environment)
 * [Dataset](#dataset)
 * [Project Structure](#structure)
-* [Feature Engineering](#engineering)
 * [Insights](#insights)
+* [Feature Engineering](#engineering)
+	- [Features used in First Revert Scenario](#engineering-first-revert)
+	- [Features used in Any Revert Scenario](#engineering-any-revert)
 * [Predicting if user will edit again after first revert](#first-revert-model)
 * [Predicting if user will edit again after any revert](#any-revert-model)
 
@@ -25,9 +27,9 @@ Obs: This is **not** the same goal as the original challenge on Kaggle.
 The project was started by making some exploratory analysis on the datasets described on the section [Dataset](#dataset). All insights can be seen on the [Insights](#insights) section. 
 
 The first idea was to construct a simpler model, that would check the probability of a user edit again after the first 
-edit was reverted. This is a simpler model because it would have only 1 record for each user, considering its first revert only. These models results can be seen on the section [Predicting if user will edit again after first revert](#first-revert-model).
+edit was reverted. This is a simpler model because it would have only 1 record for each user, considering its first revert only. This approach will be called `First revert scenario` and these models results can be seen on the section [Predicting if user will edit again after first revert](#first-revert-model).
 
-After a good model was achieved considering just the first revert, a model was built considering the probability of the user edit again after **any** revert. In this case, the dataset was much bigger, since one user could have multiple edits reverted. To make this dataset smaller for optimization purpose, a sample of 500,000 reverted edits were considered. These models results can be seen on the section [Predicting if user will edit again after any revert](#any-revert-model).
+After a good model was achieved considering just the first revert, a model was built considering the probability of the user edit again after **any** revert. In this case, the dataset was much bigger, since one user could have multiple edits reverted. To make this dataset smaller for optimization purpose, a sample of 500,000 reverted edits were considered. This approach will be called `Any revert scenario` and these models results can be seen on the section [Predicting if user will edit again after any revert](#any-revert-model).
 
 All feature engineering used by both models are described in the section [Feature Engineering](#engineering).
 
@@ -145,59 +147,6 @@ amount of data. The processed data can be obtained with the notebooks inside the
 `-- requirements.txt
 ```
 
-
-
-
-<h2 id='engineering'>Feature Engineering</h2>
-
-All feature engineering were made using [this notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/provision/00-Edits-Feature-Engineering.ipynb).
-
-The initial dataset used was a timeseries of edits of Wikipedia articles made 
-by users. Since we wanted to predict the user behavior, the dataset needed to be 
-worked with. Thus, all dataset used on the prediction was engineered based on the 
-original `edits.tsv` dataset.
-
-We needed to separate information of each user and only of users that had at least one 
-article reverted, since we wanted to predict whether the user would edit again after the first 
-revert. 
-
-The original dataset had 22,126,031 records of article edition (22 million) with a total 
-of 44,514 unique users. The final dataset had only 14,829 unique users, since not all users 
-had reverts.
-
-From this timeseries records of the original dataset, we engineered 9 features.
-Each feature is described below:
-
-**Time of first revert**: my original intuition was that the time of the first 
-revert was important to the user behavior. In my experience, the sooner you face a 
-problem, the higher the chances that you'll be unmotivated. This time was used to 
-get other features to check if my assumptions were correct. 
-
-**Time of first contribution**: necessary to construct other features, based on the 
-insight exposed above.
-
-**Last contribution**: necessary to construct other features, based on the 
-insight exposed above.
-
-**Days until revert**: using the `time of first contribution` and `time of first revert` we 
-could achieve the number of days it took the user to have a revert. The guess was that, 
-the longer the time, the higher the chances of not stopping the contributions.
-
-**Days of contribution**: using the `time of last contribution` and `time of 
-first contribution` we could check the total number of days the user contributed considering 
-this particular dataset.
-
-**Total updated**: number of updates the user made during the time of this dataset 
-
-**Updated after revert**: a boolean that check if the user continued editing after the first 
-revert. This is the target variable.
-
-**Updates per day**: mean of updated the user made per day considering the total days of 
-contribution.  
-
-**Edits before revert**: the number of editing the user made before having it's first revert.
-
-
 <h2 id='insights'>Insights</h2>
 
 ### Edits
@@ -257,6 +206,72 @@ in the comments analyzed and the word `add` was the third. This could be used as
 additional feature for better predicting results in future implementations. 
 
 ![](https://i.imgur.com/DT6ZPru.png)
+
+
+<h2 id='engineering'>Feature Engineering</h2>
+
+<h3 id='engineering-first-revert'>Features used in First Revert Scenario</h3>
+
+All feature engineering were made using [this notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/provision/00-Edits-Feature-Engineering.ipynb).
+
+The initial dataset used was a timeseries of edits of Wikipedia articles made 
+by users. Since we wanted to predict the user behavior, the dataset needed to be 
+worked with. Thus, all dataset used on the prediction was engineered based on the 
+original `edits.tsv` dataset.
+
+We needed to separate information of each user and only of users that had at least one 
+article reverted, since we wanted to predict whether the user would edit again after the first 
+revert. 
+
+The original dataset had 22,126,031 records of article edition (22 million) with a total 
+of 44,514 unique users. The final dataset had only 14,829 unique users, since not all users 
+had reverts.
+
+From this timeseries records of the original dataset, we engineered 9 features.
+Each feature is described below:
+
+| Feature                    | Detail                                                                  | Type     | Used on model |
+|----------------------------|-------------------------------------------------------------------------|----------|---------------|
+| Time of first revert       | Time when the first edit reverted occured                               | Datetime | No            |
+| Time of first contribution | Time when the user made the first contribution                          | Datetime | No            |
+| Time of last contribution  | Time when the user made the last contribution                           | Datetime | No            |
+| Days until revert          | Number of days it took the user to have the first revert                | Integer  | Yes           |
+| Days of contribution       | Number of days the user contributed                                     | Integer  | No            |
+| Total updates              | Number of edits the user made                                           | Integer  | No            |
+| Updated after revert       | If the user edited again after the revert (target)                      | Bool     | Yes           |
+| Updates per day            | Mean number of edits made per day during the total time of contribution | Float    | Yes           |
+| Edits before revert        | The number of edits the user made before having it's first revert       | Integer  | Yes           |
+
+
+<h3 id='engineering-any-revert'>Features used in Any Revert Scenario</h3>
+
+All feature engineering were made using [this notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/provision/01-Edits-Feature-Engineering-Any-Revert.ipynb).
+
+The initial dataset used was a timeseries of edits of Wikipedia articles made 
+by users. Since we wanted to predict the behavior after each revert, the dataset needed to be 
+worked with. Thus, all dataset used on the prediction was engineered based on the 
+original `edits.tsv` dataset.
+
+We needed to separate information of all edits that were reverted. 
+
+The original dataset had 22,126,031 records of article edition (22 million). The dataset containing all reverted edits contained more than a million records. A sample of 500,000 records were gathered, to make the analysis more fast and the data, easier to work with. 
+
+From this timeseries records of the original dataset, we engineered 10 features.
+Each feature is described below:
+
+| Feature                           | Detail                                                                                      | Type     | Used on model |
+|-----------------------------------|---------------------------------------------------------------------------------------------|----------|---------------|
+| Time of first contribution        | Time when the user made the first contribution                                              | Datetime | No            |
+| Number of articles before revert  | Number of articles the user already made before this particular revert                      | Integer  | Yes           |
+| Number of reverts before revert   | Number of reverts the user already had before this particular revert                        | Integer  | Yes           |
+| Days before revert                | Number of days it took the user between first contribution an this particular revert revert | Integer  | Yes           |
+| Time of last edit before revert   | Time the last edit before this particular revert occured                                    | Datetime | No            |
+| Time of last revert before revert | Time the last revert before this particular revert occured                                  | Datetime | No            |
+| Days after last edit              | Number of days this particular revert occured after last edit                               | Integer  | Yes           |
+| Days after last revert            | Number of days this particular revert occured after last revert                             | Integer  | Yes           |
+| Number of edits after revert      | Number of edits the user made after this particular revert                                  | Integer  | No            |
+| Target                            | If the user edited again after this particular revert                                       | Bool     | Yes           |
+
 
 <h2 id='first-revert-model'>Predicting if user will edit again after first revert</h2>
 
