@@ -310,17 +310,57 @@ trained using the **train** dataset (80% of the data). Once the model was traine
 of the **test** dataset was used to get the prediction based on this trained model, and the 
 results were compared with the target variable of this **test** dataset. 
 
-We achieved a model with a accuracy of 0.85, which was considered a good prediction. 
+We achieved a model with a accuracy of 0.82, which was considered a good prediction. 
 The model used three features only: the number of days 
 before the first revert, the number of updated per day and the number of edits before the first 
 revert. The model showed that the number of updates per day is the most important feature.
 
 The results of this model can be seen below:
 
-![](https://i.imgur.com/FekOlNw.png)
+![](https://i.imgur.com/UNsuDJn.png)
 
-![](https://i.imgur.com/2jze6aE.png)
+![](https://i.imgur.com/ubxmL5X.png)
 
 
 <h2 id='any-revert-model'>Predicting if user will edit again after any revert</h2>
 
+
+The notebooks with the attempts of getting the best model are available [here](https://github.com/leportella/wiki-analysis/tree/master/notebooks/modelling).
+
+The same initial strategy to construct a "quick and dirt" model was applied here to understand how far from our goal we were. The notebook is 
+available [here](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/any_revert/1.01-Baseline_LogisticRegression.ipynb).
+
+The baseline model (notebook 1) presented a high accuracy (0.99) but with no classification of 
+class 0 (users that didn't update after the revert). Thus, the high accuracy was mainly due to a problem of unbalanced classes. 
+
+The [second notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/any_revert/1.02-LogisticRegression_undersampling.ipynb) tried a strategy of undersampling. We took all 
+records of class 0 (1091) and the same amount of class 1, and end up with a total of 2182 records. This strategy resulted in an accuracy score of 0.68, but with good values of precision and recall for both class 0 and 1 (>0.5). 
+
+On the [third notebook](https://github.com/leportella/wiki-analysis/blob/master/notebooks/modelling/any_revert/1.03-RandomForest_undersampling_GridSearchCV.ipynb), we used a Random Forest Classifier model with the same undersampling technique used on the best models found. This model had an accuracy of 0.86
+
+One observation must be made: the best hyperparameters for each models were obtained by the 
+use of [GridSearchCV](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html), which a technique specialized on finding the best hyperparameters based on a measure of accuracy.
+
+## Final Model
+
+The model had as input 2062 records of reverted edits and if the user edited again after it, or not. The dataset was divided 
+into two parts: the **train** dataset and the **test** dataset, which represented 30% of the 
+2062 users.
+
+We used the classifier Random Forest, from the Scikit-learn, the GridSearchCV for finding the 
+best hyperparameters and the accuracy score, as the measure of efficiency. The model was 
+trained using the **train** dataset (70% of the data). Once the model was trained, the features 
+of the **test** dataset was used to get the prediction based on this trained model, and the 
+results were compared with the target variable of this **test** dataset. 
+
+We achieved a model with a accuracy of 0.88, which was considered a good prediction. 
+The results of this model can be seen below:
+
+![](https://i.imgur.com/juhLKTR.png)
+
+![](https://i.imgur.com/gbQfK7I.png)
+
+
+The model used five features. Three of them had a similar importance on the model: the number of days before the revert, the number of articles written before the revert and the number of reverts before the revert considered.
+
+![](https://i.imgur.com/o6sbo9o.png)
